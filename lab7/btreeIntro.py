@@ -67,3 +67,4 @@ if __name__ == "__main__":
     print(btree.toDot(example1))
     example2 = btree(55, example1, btree(7, example1))
     print('Second example: ', example2)
+    print(btree.toDot(example2))

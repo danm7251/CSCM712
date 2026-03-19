@@ -1,3 +1,9 @@
+class NoRoom(Exception):
+    pass
+
+class EmptyQueue(Exception):
+    pass
+
 class fsqueue:
     """
     A fixed-size dequeue has four attributes:
@@ -19,7 +25,12 @@ class fsqueue:
 
     # You need to modify this slightly for Task 7.1.a
     def enqueue(self, x):
+        # Need to raise an exception when the queue is full
         n = len(self.iArray)
+
+        if self.size >= n:
+            raise NoRoom
+
         self.size += 1
         self.iArray[self.end] = x
         self.end = (self.end + 1) % n
@@ -28,8 +39,16 @@ class fsqueue:
         return self.size
 
     # For you to do for Task 7.1.b
-    def dequeue(self, x):
-        return
+    # I don't understand why this takes an argument x
+    def dequeue(self, x=None):
+        if self.size <= 0:
+            raise EmptyQueue
+        
+        n = len(self.iArray)
+
+        self.size -= 1
+        self.iArray[self.begin] = None
+        self.begin = (self.begin + 1) % n
 
     # Utility function, no need to read
     def toList(self):
@@ -75,6 +94,14 @@ if __name__ == "__main__":
         q.enqueue(i)
     q.enqueue('Anemone')
     # Task 7.1.a: what happens if you uncommend the next two lines
-    # q.enqueue('Trilobyte')
-    # q.enqueue('Squid')
+    q.enqueue('Trilobyte')
+    q.dequeue()
+    q.enqueue('Squid')
+    q.dequeue()
+    q.dequeue()
+    q.dequeue()
+    q.dequeue()
+    q.dequeue()
+    q.dequeue()
+    q.dequeue()
     tellMeAboutThisQueue(q)
